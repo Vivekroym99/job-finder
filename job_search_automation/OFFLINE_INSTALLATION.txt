@@ -1,0 +1,14 @@
+
+# Job Finder Pro - Offline Package Information
+
+If online installation fails, you can create an offline package:
+
+1. On a computer with internet:
+   pip download -r requirements.txt -d offline_packages
+
+2. Copy the offline_packages folder to this computer
+
+3. Install offline:
+   pip install --find-links offline_packages -r requirements.txt --no-index
+
+This allows installation without internet connectivity.

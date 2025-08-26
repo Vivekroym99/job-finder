@@ -1,0 +1,105 @@
+2025-08-25 20:51:48,647 - JobSearchAutomation - ERROR - Fatal error: [Errno 13] Permission denied: '/mnt/data'
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - Job Search Automation initialized
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - Resume: VIVEK ROY
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - Experience: 0.0 years
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - Skills found: 40
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - ============================================================
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - STARTING JOB SEARCH AUTOMATION
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - Timezone: Europe/Warsaw
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - Max job age: 1 days
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - Min match percentage: 90%
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - ============================================================
+2025-08-25 20:52:27,977 - JobSearchAutomation - INFO - Searching LinkedIn for location: Warsaw
+2025-08-25 20:52:36,818 - JobSearchAutomation - INFO - LinkedIn: Fetched 112 jobs
+2025-08-25 20:52:36,861 - JobSearchAutomation - INFO - LinkedIn: Kept 0 jobs (>= 90% match)
+2025-08-25 20:52:36,861 - JobSearchAutomation - INFO - Searching Glassdoor for location: Warsaw
+2025-08-25 20:52:37,796 - JobSearchAutomation - INFO - Glassdoor: Fetched 0 jobs
+2025-08-25 20:52:37,796 - JobSearchAutomation - INFO - Glassdoor: Kept 0 jobs (>= 90% match)
+2025-08-25 20:52:37,796 - JobSearchAutomation - INFO - Searching Pracuj.pl for location: Warsaw
+2025-08-25 21:06:35,921 - JobSearchAutomation - INFO - Using enhanced LinkedIn scraper (Luminati-based)
+2025-08-25 21:06:36,062 - JobSearchAutomation - INFO - Job Search Automation initialized
+2025-08-25 21:06:36,062 - JobSearchAutomation - INFO - Resume: VIVEK ROY
+2025-08-25 21:06:36,062 - JobSearchAutomation - INFO - Experience: 0.0 years
+2025-08-25 21:06:36,062 - JobSearchAutomation - INFO - Skills found: 40
+2025-08-25 21:06:36,063 - JobSearchAutomation - INFO - ============================================================
+2025-08-25 21:06:36,063 - JobSearchAutomation - INFO - STARTING JOB SEARCH AUTOMATION
+2025-08-25 21:06:36,063 - JobSearchAutomation - INFO - Timezone: Europe/Warsaw
+2025-08-25 21:06:36,063 - JobSearchAutomation - INFO - Max job age: 1 days
+2025-08-25 21:06:36,063 - JobSearchAutomation - INFO - Min match percentage: 95%
+2025-08-25 21:06:36,063 - JobSearchAutomation - INFO - ============================================================
+2025-08-25 21:06:36,063 - JobSearchAutomation - INFO - Searching LinkedIn for location: Warsaw
+2025-08-25 21:06:36,063 - LinkedIn-Primary - INFO - Starting LinkedIn search for 16 keywords in Warsaw
+2025-08-25 21:06:36,063 - LinkedIn-Primary - INFO - Trying LinkedIn Guest API...
+2025-08-25 21:06:49,988 - LinkedIn-Primary - INFO - Guest API found 0 jobs
+2025-08-25 21:06:49,988 - LinkedIn-Primary - INFO - Trying LinkedIn public job search...
+2025-08-26 20:30:54,137 - JobSearchAutomation - INFO - Using enhanced LinkedIn scraper (Luminati-based)
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - Job Search Automation initialized
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - Resume: VIVEK ROY
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - Experience: 0.0 years
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - Skills found: 40
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - ============================================================
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - STARTING JOB SEARCH AUTOMATION
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - Timezone: Europe/Warsaw
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - Max job age: 14 days
+2025-08-26 20:30:54,306 - JobSearchAutomation - INFO - Min match percentage: 70%
+2025-08-26 20:30:54,307 - JobSearchAutomation - INFO - ============================================================
+2025-08-26 20:30:54,307 - JobSearchAutomation - INFO - Searching LinkedIn for location: Poland
+2025-08-26 20:30:54,307 - LinkedIn-Primary - INFO - Starting LinkedIn search for 16 keywords in Poland
+2025-08-26 20:30:54,307 - LinkedIn-Primary - INFO - Trying LinkedIn Guest API...
+2025-08-26 20:31:47,705 - LinkedIn-Primary - INFO - Guest API found 0 jobs
+2025-08-26 20:31:47,705 - LinkedIn-Primary - INFO - Trying LinkedIn public job search...
+2025-08-26 20:33:17,334 - LinkedIn-Primary - INFO - Public search found 0 jobs
+2025-08-26 20:33:17,335 - LinkedIn-Primary - INFO - Trying LinkedIn RSS feeds...
+2025-08-26 20:33:28,036 - LinkedIn-Primary - INFO - RSS feeds found 0 jobs
+2025-08-26 20:33:28,036 - LinkedIn-Primary - INFO - Enhanced methods yielded few results, falling back to basic scraper...
+2025-08-26 20:33:57,036 - LinkedIn-Primary - INFO - Basic scraper fallback found 142 additional jobs
+2025-08-26 20:33:57,037 - LinkedIn-Primary - INFO - Total jobs found: 142
+2025-08-26 20:33:57,037 - LinkedIn-Primary - INFO - Unique LinkedIn jobs after deduplication: 142
+2025-08-26 20:33:57,039 - JobSearchAutomation - INFO - LinkedIn: Fetched 142 jobs
+2025-08-26 20:33:57,425 - JobSearchAutomation - INFO - LinkedIn: Kept 0 jobs (>= 70% match)
+2025-08-26 20:33:57,425 - JobSearchAutomation - INFO - Searching Glassdoor for location: Poland
+2025-08-26 20:33:58,360 - JobSearchAutomation - INFO - Glassdoor: Fetched 0 jobs
+2025-08-26 20:33:58,360 - JobSearchAutomation - INFO - Glassdoor: Kept 0 jobs (>= 70% match)
+2025-08-26 20:33:58,360 - JobSearchAutomation - INFO - Searching Pracuj.pl for location: Poland
+2025-08-26 20:34:31,600 - JobSearchAutomation - INFO - Pracuj.pl: Fetched 203 jobs
+2025-08-26 20:34:31,611 - JobSearchAutomation - INFO - Pracuj.pl: Kept 0 jobs (>= 70% match)
+2025-08-26 20:34:31,611 - JobSearchAutomation - INFO - Searching Google Jobs for location: Poland
+2025-08-26 20:35:06,395 - JobSearchAutomation - INFO - Google Jobs: Fetched 0 jobs
+2025-08-26 20:35:06,395 - JobSearchAutomation - INFO - Google Jobs: Kept 0 jobs (>= 70% match)
+2025-08-26 20:35:06,395 - JobSearchAutomation - INFO - 
+Total unique matched jobs: 0
+2025-08-26 20:35:06,395 - OutputManager - WARNING - No jobs to save to CSV
+2025-08-26 20:35:06,395 - OutputManager - WARNING - No jobs to save to JSONL
+2025-08-26 20:35:06,396 - JobSearchAutomation - INFO - Job search automation completed successfully!
+2025-08-26 20:35:08,189 - JobSearchAutomation - INFO - Using enhanced LinkedIn scraper (Luminati-based)
+2025-08-26 20:35:08,320 - JobSearchAutomation - INFO - Job Search Automation initialized
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - Resume: VIVEK ROY
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - Experience: 0.0 years
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - Skills found: 40
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - ============================================================
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - STARTING JOB SEARCH AUTOMATION
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - Timezone: Europe/Warsaw
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - Max job age: 14 days
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - Min match percentage: 70%
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - ============================================================
+2025-08-26 20:35:08,321 - JobSearchAutomation - INFO - Searching LinkedIn for location: Poland
+2025-08-26 20:35:08,321 - LinkedIn-Primary - INFO - Starting LinkedIn search for 16 keywords in Poland
+2025-08-26 20:35:08,321 - LinkedIn-Primary - INFO - Trying LinkedIn Guest API...
+2025-08-26 20:35:56,658 - LinkedIn-Primary - INFO - Guest API found 0 jobs
+2025-08-26 20:35:56,658 - LinkedIn-Primary - INFO - Trying LinkedIn public job search...
+2025-08-26 20:37:18,933 - LinkedIn-Primary - INFO - Public search found 0 jobs
+2025-08-26 20:37:18,933 - LinkedIn-Primary - INFO - Trying LinkedIn RSS feeds...
+2025-08-26 20:37:30,732 - LinkedIn-Primary - INFO - RSS feeds found 0 jobs
+2025-08-26 20:37:30,732 - LinkedIn-Primary - INFO - Enhanced methods yielded few results, falling back to basic scraper...
+2025-08-26 20:37:58,861 - LinkedIn-Primary - INFO - Basic scraper fallback found 141 additional jobs
+2025-08-26 20:37:58,861 - LinkedIn-Primary - INFO - Total jobs found: 141
+2025-08-26 20:37:58,861 - LinkedIn-Primary - INFO - Unique LinkedIn jobs after deduplication: 141
+2025-08-26 20:37:58,863 - JobSearchAutomation - INFO - LinkedIn: Fetched 141 jobs
+2025-08-26 20:37:59,105 - JobSearchAutomation - INFO - LinkedIn: Kept 0 jobs (>= 70% match)
+2025-08-26 20:37:59,105 - JobSearchAutomation - INFO - Searching Glassdoor for location: Poland
+2025-08-26 20:38:00,149 - JobSearchAutomation - INFO - Glassdoor: Fetched 0 jobs
+2025-08-26 20:38:00,149 - JobSearchAutomation - INFO - Glassdoor: Kept 0 jobs (>= 70% match)
+2025-08-26 20:38:00,149 - JobSearchAutomation - INFO - Searching Pracuj.pl for location: Poland
+2025-08-26 20:38:39,210 - JobSearchAutomation - INFO - Pracuj.pl: Fetched 203 jobs
+2025-08-26 20:38:39,222 - JobSearchAutomation - INFO - Pracuj.pl: Kept 0 jobs (>= 70% match)
+2025-08-26 20:38:39,222 - JobSearchAutomation - INFO - Searching Google Jobs for location: Poland
