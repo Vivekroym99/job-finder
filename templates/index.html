@@ -271,6 +271,55 @@
                                             </select>
                                         </div>
                                         
+                                        <div class="mb-3">
+                                            <label for="experienceLevels" class="form-label">Experience Levels (Select Multiple)</label>
+                                            <div class="experience-checkboxes">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="intern" id="exp-intern">
+                                                    <label class="form-check-label" for="exp-intern">
+                                                        Intern / Student (0 years)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="entry" id="exp-entry">
+                                                    <label class="form-check-label" for="exp-entry">
+                                                        Entry Level (0-1 year)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="junior" id="exp-junior">
+                                                    <label class="form-check-label" for="exp-junior">
+                                                        Junior (1-2 years)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="mid" id="exp-mid" checked>
+                                                    <label class="form-check-label" for="exp-mid">
+                                                        Mid-Level (2-5 years)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="senior" id="exp-senior">
+                                                    <label class="form-check-label" for="exp-senior">
+                                                        Senior (5-8 years)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="lead" id="exp-lead">
+                                                    <label class="form-check-label" for="exp-lead">
+                                                        Lead / Principal (8+ years)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="manager" id="exp-manager">
+                                                    <label class="form-check-label" for="exp-manager">
+                                                        Manager / Director (10+ years)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">Select all experience levels you're interested in</small>
+                                        </div>
+                                        
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="minMatch" class="form-label">Min Match %</label>
@@ -514,9 +563,21 @@
                 return;
             }
 
+            // Collect selected experience levels
+            const experienceLevels = [];
+            document.querySelectorAll('.experience-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
+                experienceLevels.push(checkbox.value);
+            });
+            
+            if (experienceLevels.length === 0) {
+                alert('Please select at least one experience level');
+                return;
+            }
+            
             const searchParams = {
                 session_id: currentSessionId,
                 location: document.getElementById('location').value,
+                experience_levels: experienceLevels,
                 min_match: parseInt(document.getElementById('minMatch').value),
                 max_age_days: parseInt(document.getElementById('maxAge').value),
                 include_remote: document.getElementById('includeRemote').checked,
@@ -661,6 +722,8 @@
                                 <th>Location</th>
                                 <th>Platform</th>
                                 <th>Match Score</th>
+                                <th>Matched Keywords</th>
+                                <th>Language</th>
                                 <th>Posted Date</th>
                                 <th>Action</th>
                             </tr>
@@ -672,6 +735,36 @@
                 const matchClass = job.match_score >= 80 ? 'score-high' : 
                                  job.match_score >= 60 ? 'score-medium' : 'score-low';
                 
+                // Extract matched keywords if available
+                let keywordsHtml = '';
+                if (job.matched_keywords && job.matched_keywords.length > 0) {
+                    const displayKeywords = job.matched_keywords.slice(0, 5);
+                    keywordsHtml = displayKeywords.map(kw => 
+                        `<span class="badge bg-info text-dark me-1">${kw}</span>`
+                    ).join('');
+                    if (job.matched_keywords.length > 5) {
+                        keywordsHtml += `<span class="badge bg-secondary">+${job.matched_keywords.length - 5} more</span>`;
+                    }
+                } else {
+                    keywordsHtml = '<span class="text-muted">-</span>';
+                }
+                
+                // Extract language information
+                let languageHtml = '';
+                const originalLang = job.original_language || 'en';
+                const wasTranslated = job.translated || false;
+                
+                if (wasTranslated) {
+                    languageHtml = `
+                        <span class="badge bg-info" title="Translated from ${originalLang.toUpperCase()}">
+                            ${originalLang.toUpperCase()} → EN
+                        </span>
+                    `;
+                } else {
+                    const langColor = originalLang === 'en' ? 'bg-success' : 'bg-primary';
+                    languageHtml = `<span class="badge ${langColor}">${originalLang.toUpperCase()}</span>`;
+                }
+                
                 tableHTML += `
                     <tr>
                         <td><strong>${job.job_title}</strong></td>
@@ -679,6 +772,8 @@
                         <td>${job.location}</td>
                         <td><span class="badge bg-secondary">${job.platform}</span></td>
                         <td><span class="match-score ${matchClass}">${job.match_score}%</span></td>
+                        <td>${keywordsHtml}</td>
+                        <td>${languageHtml}</td>
                         <td>${job.posted_date}</td>
                         <td>
                             ${job.job_url ? `<a href="${job.job_url}" target="_blank" class="btn btn-sm btn-outline-primary">

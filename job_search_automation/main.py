@@ -9,13 +9,20 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from config.settings import Config
 from utils.resume_parser import ResumeParser
+from utils.translator import JobTranslator
 from matchers.job_matcher import JobMatcher
 from matchers.enhanced_job_matcher import EnhancedJobMatcher
+from matchers.description_focused_matcher import DescriptionFocusedMatcher
 from scrapers.linkedin_scraper import LinkedInScraper
 from scrapers.linkedin_luminati_scraper import LinkedInLuminatiScraper
 from scrapers.glassdoor_scraper import GlassdoorScraper
 from scrapers.pracuj_scraper import PracujScraper
 from scrapers.google_jobs_scraper import GoogleJobsScraper
+from scrapers.indeed_scraper import IndeedScraper
+from scrapers.monster_scraper import MonsterScraper
+from scrapers.careerbuilder_scraper import CareerBuilderScraper
+from scrapers.nofluffjobs_scraper import NoFluffJobsScraper
+from scrapers.justjoinit_scraper import JustJoinITScraper
 from outputs.output_manager import OutputManager
 
 logging.basicConfig(
@@ -35,9 +42,23 @@ class JobSearchAutomation:
         self.output_manager = OutputManager(config)
         self.resume_parser = ResumeParser(config.RESUME_FILE)
         self.resume_profile = self.resume_parser.extract_profile()
+        self.translator = JobTranslator()
         
-        # Use enhanced matcher if configured
-        if getattr(config, 'ENHANCED_MATCHING', False):
+        # Choose matching algorithm based on configuration
+        matcher_type = getattr(config, 'MATCHER_TYPE', 'description_focused')
+        
+        if matcher_type == 'description_focused':
+            user_experience_years = getattr(config, 'USER_EXPERIENCE_YEARS', None)
+            user_experience_level = getattr(config, 'USER_EXPERIENCE_LEVEL', None)
+            self.job_matcher = DescriptionFocusedMatcher(
+                self.resume_profile,
+                user_experience_years=user_experience_years,
+                user_experience_level=user_experience_level
+            )
+            logger.info(f"Using Description-Focused Matcher (35% content analysis + 25% semantic similarity)")
+            if user_experience_level:
+                logger.info(f"User experience level: {user_experience_level} ({user_experience_years} years)")
+        elif matcher_type == 'enhanced' and getattr(config, 'ENHANCED_MATCHING', False):
             user_skills = getattr(config, 'USER_SKILLS', [])
             user_experience = getattr(config, 'USER_EXPERIENCE', 0)
             self.job_matcher = EnhancedJobMatcher(
@@ -64,7 +85,12 @@ class JobSearchAutomation:
             'LinkedIn': linkedin_scraper,
             'Glassdoor': GlassdoorScraper(),
             'Pracuj.pl': PracujScraper(),
-            'Google Jobs': GoogleJobsScraper()
+            'Google Jobs': GoogleJobsScraper(),
+            'Indeed': IndeedScraper(),
+            'Monster': MonsterScraper(),
+            'CareerBuilder': CareerBuilderScraper(),
+            'NoFluffJobs': NoFluffJobsScraper(),
+            'JustJoinIT': JustJoinITScraper()
         }
         
         logger.info("Job Search Automation initialized")
@@ -100,19 +126,33 @@ class JobSearchAutomation:
                 if not self.job_matcher.is_job_recent(job.get('posted_date', ''), self.config.MAX_JOB_AGE_DAYS):
                     continue
                 
+                # Translate job if needed (before matching)
+                job = self.translator.translate_job(job)
+                
                 job['required_experience'] = self.job_matcher.extract_experience_requirement(
                     job.get('description', '')
                 )
                 
-                # Use enhanced matching if available
-                if isinstance(self.job_matcher, EnhancedJobMatcher):
+                # Use appropriate matching based on matcher type
+                if isinstance(self.job_matcher, DescriptionFocusedMatcher):
+                    match_score, details = self.job_matcher.calculate_match_score(job)
+                    matching_skills = details.get('matched_skills', [])
+                    matched_keywords = details.get('matched_keywords', [])
+                    
+                    # Add detailed match info to job
+                    job['match_details'] = details
+                    job['matched_keywords'] = matched_keywords[:10]  # Limit to top 10 keywords
+                    job['matched_skills'] = matching_skills
+                elif isinstance(self.job_matcher, EnhancedJobMatcher):
                     match_score, details = self.job_matcher.calculate_enhanced_match_score(job)
                     matching_skills = details['all_matching_skills']
                     
                     # Add enhanced details to job
                     job['match_details'] = details
+                    job['matched_keywords'] = matching_skills  # Use skills as keywords for enhanced matcher
                 else:
                     match_score, matching_skills = self.job_matcher.calculate_match_score(job)
+                    job['matched_keywords'] = list(matching_skills) if matching_skills else []
                 
                 # Apply minimum threshold (default 50% for enhanced, configurable)
                 if match_score >= self.config.MIN_MATCH_PCT:

@@ -25,6 +25,9 @@ class Config:
     # LinkedIn scraper options
     USE_BASIC_LINKEDIN = False  # Set to True to use basic LinkedIn scraper instead of enhanced
     
+    # Job matching algorithm
+    MATCHER_TYPE = 'description_focused'  # Options: 'standard', 'enhanced', 'description_focused'
+    
     PLATFORMS = {
         "linkedin": {
             "enabled": True,

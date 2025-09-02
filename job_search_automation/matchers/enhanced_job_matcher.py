@@ -1,7 +1,14 @@
 """
-Enhanced Job Matcher with weighted scoring system
-- 60% weight from resume content
-- 40% weight from user-provided data (skills + experience level)
+Enhanced Job Matcher that focuses on job description content matching with resume.
+This matcher prioritizes deep content analysis over job titles for better matching accuracy.
+
+Key Features:
+- 35% Job Description Content Analysis (primary focus)
+- 25% Semantic Similarity via TF-IDF
+- 20% Technical Skills Matching  
+- 10% Keyword Overlap
+- 5% Experience Compatibility
+- 5% Role Relevance (minimal weight on job titles)
 """
 
 import re

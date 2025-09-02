@@ -11,3 +11,6 @@ python-docx==0.8.11
 pytz==2023.3
 Werkzeug==2.3.7
 gunicorn==21.2.0
+googletrans==4.0.0rc1
+langdetect==1.0.9
+cloudscraper==1.2.71

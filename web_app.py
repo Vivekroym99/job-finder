@@ -42,7 +42,7 @@ os.makedirs(app.config['RESULTS_FOLDER'], exist_ok=True)
 os.makedirs('templates', exist_ok=True)
 os.makedirs('static', exist_ok=True)
 
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
+socketio = SocketIO(app, cors_allowed_origins="*", logger=False, engineio_logger=False)
 
 # Database setup
 def init_db():
@@ -236,6 +236,28 @@ def run_job_search(session_id, search_params):
         config.MAX_JOB_AGE_DAYS = search_params.get('max_age_days', 14)
         config.INCLUDE_REMOTE = search_params.get('include_remote', True)
         config.USE_BASIC_LINKEDIN = search_params.get('use_basic_linkedin', False)
+        config.MATCHER_TYPE = 'description_focused'  # Use description-focused matcher by default
+        
+        # Parse multiple experience levels
+        experience_levels = search_params.get('experience_levels', ['mid'])
+        if not isinstance(experience_levels, list):
+            experience_levels = [experience_levels]
+        
+        experience_mapping = {
+            'intern': 0,
+            'entry': 0.5,
+            'junior': 1.5,
+            'mid': 3.5,
+            'senior': 6.5,
+            'lead': 9,
+            'manager': 12
+        }
+        
+        # Use the average experience level for matching
+        experience_years = [experience_mapping.get(level, 3.5) for level in experience_levels]
+        config.USER_EXPERIENCE_YEARS = sum(experience_years) / len(experience_years) if experience_years else 3.5
+        config.USER_EXPERIENCE_LEVELS = experience_levels
+        config.USER_EXPERIENCE_RANGE = (min(experience_years), max(experience_years)) if experience_years else (0, 15)
         
         # Set output directory
         results_dir = os.path.join(app.config['RESULTS_FOLDER'], session_id)
