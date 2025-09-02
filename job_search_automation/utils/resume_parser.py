@@ -81,39 +81,90 @@ class ResumeParser:
         return list(set(skills))
     
     def _calculate_experience_years(self) -> float:
+        """Calculate total years of experience from resume text"""
         experience_entries = []
         
+        # Pattern to match date ranges like "Mar 2021 - Sept 2021" or "Feb 2025 - Present"
         date_patterns = [
-            r'(\w+\s+\d{4})\s*[–-]\s*Present',
-            r'(\w+\s+\d{4})\s*[–-]\s*(\w+\s+\d{4})',
-            r'(\d{4})\s*[–-]\s*(\d{4})'
+            r'(\w+\s+\d{4})\s*[–\-]\s*Present',
+            r'(\w+\s+\d{4})\s*[–\-]\s*(\w+\s+\d{4})',
+            r'(\d{4})\s*[–\-]\s*(\d{4})',
+            r'(\w+\s+\d{4})\s*[–\-]\s*(\w+\s+\d{4})'
         ]
         
         for pattern in date_patterns:
-            matches = re.findall(pattern, self.resume_text)
+            matches = re.findall(pattern, self.resume_text, re.IGNORECASE)
             experience_entries.extend(matches)
         
         total_months = 0
-        current_year = datetime.now().year
+        current_date = datetime.now()
+        
+        # Month name to number mapping
+        month_map = {
+            'jan': 1, 'january': 1, 'feb': 2, 'february': 2,
+            'mar': 3, 'march': 3, 'apr': 4, 'april': 4,
+            'may': 5, 'jun': 6, 'june': 6, 'jul': 7, 'july': 7,
+            'aug': 8, 'august': 8, 'sep': 9, 'sept': 9, 'september': 9,
+            'oct': 10, 'october': 10, 'nov': 11, 'november': 11,
+            'dec': 12, 'december': 12
+        }
+        
+        def parse_date(date_str):
+            """Parse date string to (year, month) tuple"""
+            parts = date_str.strip().split()
+            if len(parts) == 2:
+                month_name, year = parts
+                month_num = month_map.get(month_name.lower(), 1)
+                return (int(year), month_num)
+            elif len(parts) == 1 and parts[0].isdigit():
+                return (int(parts[0]), 1)
+            return None
         
         for entry in experience_entries:
             try:
-                if isinstance(entry, tuple):
-                    if "Present" in str(entry):
-                        start_date = entry[0]
-                        end_months = current_year * 12 + datetime.now().month
-                        if "2025" in start_date:
-                            start_months = 2025 * 12 + 2
-                        elif "2024" in start_date:
-                            start_months = 2024 * 12 + 3
-                        elif "2021" in start_date:
-                            start_months = 2021 * 12 + 3
-                        elif "2017" in start_date:
-                            start_months = 2017 * 12 + 6
-                        else:
+                if isinstance(entry, str):
+                    # Single date with Present
+                    start_date = parse_date(entry)
+                    if start_date:
+                        # Handle future dates by capping at current date
+                        end_year, end_month = current_date.year, current_date.month
+                        start_year, start_month = start_date
+                        
+                        # Skip if start date is in the future
+                        if start_year > current_date.year or \
+                           (start_year == current_date.year and start_month > current_date.month):
                             continue
-                        total_months += max(0, end_months - start_months)
-            except:
+                        
+                        months = (end_year - start_year) * 12 + (end_month - start_month)
+                        total_months += max(0, months)
+                        
+                elif isinstance(entry, tuple) and len(entry) == 2:
+                    # Date range
+                    start_str, end_str = entry
+                    start_date = parse_date(start_str)
+                    
+                    if end_str.lower() == 'present':
+                        end_date = (current_date.year, current_date.month)
+                    else:
+                        end_date = parse_date(end_str)
+                    
+                    if start_date and end_date:
+                        start_year, start_month = start_date
+                        end_year, end_month = end_date
+                        
+                        # Handle future dates
+                        if end_year > current_date.year or \
+                           (end_year == current_date.year and end_month > current_date.month):
+                            end_year, end_month = current_date.year, current_date.month
+                        
+                        # Skip if start is after end
+                        if start_year > end_year or \
+                           (start_year == end_year and start_month > end_month):
+                            continue
+                        
+                        months = (end_year - start_year) * 12 + (end_month - start_month)
+                        total_months += max(0, months)
+            except Exception as e:
                 continue
         
         return round(total_months / 12, 1)
